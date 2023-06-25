@@ -101,15 +101,111 @@ function data([first, second, third]) {
 };
 console.log(data()); // TypeError
 
-//// OBJECT DESTRUCTURING ⭐️
+// OBJECT DESTRUCTURING ⭐️
 function data() {
-	return { a: 1, b: 2, c: 3 }
-};
+	return { a: 1, b: 2, c: 3 };
+}
 // var tmp = data();
 // var first = tmp.a
 // var second = tmp.b
 // var third = tmp.c
 // console.log(third);
 // //
-var { a: first, b: second, ...third } = data();
-console.log(second)
+var { a: first, b: second, ...third } = data() || {}; // "{}" is Protect from TypeError;
+console.log(second);
+
+// Nested Object Destructuring ⭐️
+function data() {
+	return { a: 1, b: { c: 3, d: 4 } };
+};
+
+// let tmp = data();
+// var a = tmp.a;
+// var b = tmp.b = {};
+// var c = b.c;
+// var d = b.d;
+// console.log(c, d);
+
+///
+
+var { a, b: { c, d } = {} } = data();
+console.log(a)
+
+// NESTED OBJECT & ARRAY DEST...
+
+var obj = { a: 1, b: { t: 10, w: 20 }, c: { w: 30 } };
+var { c: { w } } = obj;
+console.log(w); // 30
+
+//
+
+var obj = { a: 1, b: [10, 20], c: [30] };
+var { b: [z, w] } = obj;
+console.log(w); // 20
+
+// ARRAY METHODS
+
+var arr = [{ a: 1 }, { a: 2 }];
+let d = arr.find(function match(v) { return v && v.a > 1 });
+console.log(d)
+//
+let p = [1, 2, 3].map(function tuples(v) { return [v * 2, String(v * 2)] }).flat();
+console.log(p) // [ 2, '2', 4, '4', 6, '6' ]
+//
+let m = [1, 2, 3].flatMap(function tuples(v) { return [v * 2, String(v * 2)] });
+console.log(m) // [ 2, '2', 4, '4', 6, '6' ]
+//
+let l = [1, 2, 3, 4, 5, 6].flatMap(function doubleEvens(v) {
+	if (v % 2 === 0) {
+		return [v, v * 2];
+	} else { return [] }
+})
+console.log(l) // [ 2, 4, 4, 8, 6, 12 ];
+
+//ITERATORS and GENERATORS
+
+var str = 'Hello';
+var world = ['W', 'o', 'r', 'l', 'd'];
+
+var it1 = str[Symbol.iterator]();
+var it2 = world[Symbol.iterator]();
+console.log(it1.next())
+
+// generator functions
+
+function* main() {
+	yield 1;
+	yield 2;
+	yield 3;
+	return 4;
+}
+var it = main();
+
+it.next(); // ...
+it.next(); // { value: 2, done: false }
+it.next(); // ...
+it.next(); // ...
+
+// exercise
+
+var numbers = {
+	// ...
+};
+
+for (let num of numbers) {
+	console.log(num);
+}
+
+console.log(`My lucky numbers are: ___ `);
+
+// solution
+
+var numbers = {
+	*[Symbol.iterator]({ start = 0, end = 100, step = 1 } = {}) {
+		for (let i = start; i <= end; i += step) {
+			yield i;
+		}
+	},
+};
+
+console.log(`My lucky numbers are: ${[...numbers[Symbol.iterator]({ start: 6, end: 30, step: 4 })]}`);
