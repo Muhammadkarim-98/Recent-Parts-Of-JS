@@ -1,3 +1,4 @@
+// BISMILLAH
 function formatCurr(strings, ...values) {
 	var str = "";
 	for (let i = 0; i < strings.length; i++) {
