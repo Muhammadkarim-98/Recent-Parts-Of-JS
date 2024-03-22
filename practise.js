@@ -43,6 +43,19 @@
 // console.log(msg.trim());
 
 // ARRAY DESTRUCTURING
+//// Non Destructed
+var tmp = getSomeRecords();
+
+var first = tmp[0];
+var second = tmp[1];
+
+var firstName = first.name;
+var secondEmail = first.email !== undefined ? first.email : "nobody@none.tld";
+
+var secondName = second.name;
+var secondEmail = second.email !== indefined ? second.email : "nobody@none.tld";
+//// Destructed
+var [{ name: firstName, email: firstEmail = "nobody@none.tld" }, { name: secondName, email: secondEmail = "nobody@none.tld" }] = getSomeRecords();
 
 // function data() {
 // 	return [1, 2, 3, 4, 5]
@@ -194,7 +207,7 @@
 // should print 6-30 in 4step
 // console.log(`My luckfy numbers are: ${[...numbers[Symbol.iterator]({ start: 6, end: 30, step: 4 })]}`);
 
-let msg = 'Hello World';
+let msg = "Hello World";
 console.log(msg.match(/(l.)/g)); // [ 'll', 'ld' ]
 console.log(msg.match(/(l.)$/g)); // [ 'ld' ]
 console.log(msg.match(/(l.)(?=o)/g)); // [ 'll' ]
